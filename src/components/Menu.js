@@ -12,8 +12,6 @@ export default function NavBar() {
 				<Menu.Item key="1" onClick={() => { History.push('/') }}>Home</Menu.Item>
 				<Menu.Item key="2">¿Como Donar?</Menu.Item>
 				<Menu.Item key="3">Sobre Nosotros</Menu.Item>
-				<Menu.Item key="4" onClick={() => { History.push('/login') }} style={{ float: 'right' }}>Iniciar Sesion</Menu.Item>
-
 			</Menu>
 		</Header>
 	)
