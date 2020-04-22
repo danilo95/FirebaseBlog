@@ -18,17 +18,19 @@ export default function CurrentPost(props) {
 
 	useEffect(() => {
 		const slug = props.match.params.slug;
+		const id = props.location.state.id;
 		if (loading && !currentPost) {
-			getFirebase()
-				.database()
-				.ref()
-				.child(`/posts/${slug}`)
-				.once("value")
-				.then(snapshot => {
-					if (snapshot.val()) {
-						setCurrentPost(snapshot.val());
-					}
-					setLoading(false);
+			getFirebase().firestore()
+				.collection(`posts`)
+				.doc(`${id}`)
+				.get()
+				.then(function (querySnapshot) {
+					setCurrentPost(querySnapshot.data())
+					setLoading(false)
+
+				})
+				.catch(function (error) {
+					console.log("Error getting documents: ", error);
 				});
 		}
 	});

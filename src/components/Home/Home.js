@@ -11,45 +11,36 @@ export default function Home() {
 
 	useEffect(() => {
 		if (loading && !blogPosts.length) {
-			/*		getFirebase()
-						.database()
-						.ref("/posts")
-						.orderByChild("dateFormatted")
-						.once("value")
-						.then(snapshot => {
-							let posts = [];
-							const snapshotVal = snapshot.val();
-							for (let slug in snapshotVal) {
-								posts.push(snapshotVal[slug]);
-							}
-		
-							const newestFirst = posts.reverse();
-							setBlogPosts(newestFirst);
-							setLoading(false);
-						})*/
-
-			//otra funcion
 			getFirebase().firestore()
 				.collection(`posts`)
 				.get()
 				.then(function (querySnapshot) {
+					let posts = []
 					querySnapshot.forEach(function (doc) {
-						// doc.data() is never undefined for query doc snapshots
-						console.log(doc.id, " => ", doc.data());
+						let data = doc.data()
+						posts.push({ ...data, id: doc.id })
+
 					});
+					setLoading(false)
+					setBlogPosts(posts)
 				})
 				.catch(function (error) {
 					console.log("Error getting documents: ", error);
 				});
-
-
 		}
 
 
 	});
 
-	const redirect = (slug) => {
-		History.push(`/post/${slug}`)
+	const redirect = (slug, id) => {
+		//History.push(`/post/${slug}`)
+		History.push({
+			pathname:
+				'/post/' + slug,
+			state: {
+				id
+			}
+		});
 	}
 
 	return (
@@ -61,11 +52,12 @@ export default function Home() {
 						return (
 							<Col span={8}>
 								<Card title={post.title} bordered={false}
+									key={index}
 									cover={<img alt="Post-Cover" src={post.coverImage} />}
 									key={index}>
 									<Meta description={post.descripcion} />
 									<p>{post.datePretty}</p>
-									<Button onClick={e => redirect(post.slug)}>Ver</Button>
+									<Button onClick={e => redirect(post.slug, post.id)}>Ver</Button>
 								</Card>
 							</Col>
 
