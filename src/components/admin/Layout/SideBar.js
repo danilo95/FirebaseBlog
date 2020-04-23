@@ -27,7 +27,7 @@ const SideBar = (props) => {
 				>
 					<Menu.Item
 						key="1"
-						onClick={() => History.push('/cms/users')}
+						onClick={() => History.push('/cms/newpost')}
 					>
 						Crear Post
 					</Menu.Item>
