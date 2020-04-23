@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { getFirebase } from "../../firebase";
-import { Card, Col, Row, Button } from 'antd';
+import { Card, Col, Row, Button,Divider  } from 'antd';
 import History from '../../History'
+import Donaciones from '../Donaciones/Donaciones'
 
 const { Meta } = Card;
 
@@ -46,6 +47,8 @@ export default function Home() {
 	return (
 		<div>
 			<Card title="Donaciones" bordered={false} style={{ width: 'auto' }} loading={loading}>
+				<Donaciones/>
+				<Divider>Publicaciones</Divider>
 				<Row gutter={16}>
 					{blogPosts.map((post, index) => {
 
@@ -54,7 +57,7 @@ export default function Home() {
 								<Card title={post.title} bordered={false}
 									key={index}
 									cover={<img alt="Post-Cover" src={post.coverImage} />}
-									key={index}>
+									>
 									<Meta description={post.descripcion} />
 									<p>{post.datePretty}</p>
 									<Button onClick={e => redirect(post.slug, post.id)}>Ver</Button>
